@@ -29,6 +29,7 @@ class SensorGeneratorActor @Inject()(conf: Configuration, postSensorService: Pos
   val log = Logger(this.getClass.getName)
   val generate = GenerateSensors
 
+  log.warn("Starting sensor generation timer")
   timers.startSingleTimer(generate, generate, 5.second)
 
   override def receive: Receive = {
@@ -46,6 +47,7 @@ class SensorGeneratorActor @Inject()(conf: Configuration, postSensorService: Pos
             result
           }
           case Failure(ex) => {
+            log.error(ex.getMessage)
             false
           }
         }
